@@ -1,0 +1,49 @@
+<html>
+<head>
+<title>Apply</title>
+</head>
+<body>
+<h1>属性与方法</h1>
+<script>
+function Person(name,age){   //定义一个类，人类  
+    this.name=name;     //名字  
+    this.age=age;       //年龄 
+    this.sayhello=function(){alert("hello, "+name)};
+} 
+function Print(){            //显示类的属性 
+    this.funcName="Print"; 
+    this.show=function(){      
+        var msg=[];
+        for(var key in this){ 
+            if(typeof(this[key])!="function"){
+                msg.push([key,":",this[key]].join(""));
+            }
+        } 
+        console.log(msg.join(" "));
+    };
+} 
+function Student(name,age,grade,school){    //学生类 
+    Person.apply(this,arguments);
+    Print.apply(this,arguments);
+    this.grade=grade;                //年级 
+    this.school=school;                 //学校 
+} 
+var p1=new Person("jake",10);
+p1.sayhello();
+var s1=new Student("tom",13,6,"清华小学");
+s1.show();
+s1.sayhello();
+console.log(s1.funcName);
+
+
+var arr1 = [1, 2, 3];
+var arr2 = [3, 4, 5];
+Array.prototype.push.apply(arr1,arr2);
+console.log(arr1);
+
+var arr3 = [4, 5, 24, 1, 0, 7];
+var max = Math.max.apply(null, arr3);
+console.log(max);
+</script>
+</body>
+</html>
