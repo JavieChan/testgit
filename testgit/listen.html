@@ -10,7 +10,7 @@ function Emitter() {
 }
  
 //注册事件
-Emitter.prototype.bind = function(eventName, callback) {
+Emitter.prototype.on = function(eventName, callback) {
     var listener = this._listener[eventName] || [];//this._listener[eventName]没有值则将listener定义为[](数组)。
     listener.push(callback);
     this._listener[eventName] = listener;
@@ -33,11 +33,11 @@ Emitter.prototype.trigger = function(eventName) {
 
 //实例
 var emitter = new Emitter();
-emitter.bind("myevent", function(arg1, arg2) {
+emitter.on("myevent", function(arg1, arg2) {
 	console.log(arg1, arg2);
 });
 
-emitter.bind("myevent", function(arg1, arg2) {
+emitter.on("myevent", function(arg1, arg2) {
 	console.log(arg2, arg1);
 });
 
