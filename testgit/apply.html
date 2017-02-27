@@ -8,7 +8,7 @@
 function Person(name,age){   //定义一个类，人类  
     this.name=name;     //名字  
     this.age=age;       //年龄 
-    this.sayhello=function(){alert("hello, "+name)};
+    this.sayhello=function(){console.log("hello, "+name)};
 } 
 function Print(){            //显示类的属性 
     this.funcName="Print"; 
@@ -28,9 +28,9 @@ function Student(name,age,grade,school){    //学生类
     this.grade=grade;                //年级 
     this.school=school;                 //学校 
 } 
-var p1=new Person("jake",10);
+var p1=new Person("jack",10);
 p1.sayhello();
-var s1=new Student("tom",13,6,"清华小学");
+var s1=new Student("silly",13,6,"春天花花幼稚园");
 s1.show();
 s1.sayhello();
 console.log(s1.funcName);
@@ -44,6 +44,21 @@ console.log(arr1);
 var arr3 = [4, 5, 24, 1, 0, 7];
 var max = Math.max.apply(null, arr3);
 console.log(max);
+
+function applyHandle(name){
+	this.name = name;
+	this.showName = function(){
+		console.log(this.name);
+	};
+}
+
+function applyOn(){
+	console.log(this);
+	this.showName();
+}
+
+var apph = new applyHandle('JavieChan');
+applyOn.apply(apph, []);
 </script>
 </body>
 </html>
