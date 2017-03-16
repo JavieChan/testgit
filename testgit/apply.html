@@ -8,8 +8,8 @@
 function Person(name,age){   //定义一个类，人类  
     this.name=name;     //名字  
     this.age=age;       //年龄 
-    this.sayhello=function(){console.log("hello, "+name)};
-} 
+    this.sayhello=function(){console.log("hello, "+this.name)};
+}
 function Print(){            //显示类的属性 
     this.funcName="Print"; 
     this.show=function(){      
@@ -27,9 +27,11 @@ function Student(name,age,grade,school){    //学生类
     Print.apply(this,arguments);
     this.grade=grade;                //年级 
     this.school=school;                 //学校 
-} 
+}
+var boy = {name: 'snow'};
 var p1=new Person("jack",10);
 p1.sayhello();
+p1.sayhello.call(boy);
 var s1=new Student("silly",13,6,"春天花花幼稚园");
 s1.show();
 s1.sayhello();
