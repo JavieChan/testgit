@@ -1,5 +1,6 @@
 <html>
 <head>
+<meta charset="UTF-8">
 <title>vue test</title>
 <script src="vue.js"></script>
 </head>
@@ -61,7 +62,7 @@ var app7 = new Vue({
 		  <label>Email</label>
 		  <input placeholder="Enter your email address" key="email-input" v-model.trim="email">
 		</template>
-		<button type="button" v-on:click="ChangeLoginType">Toggle login type</button>
+		<button type="button" v-on:click="ChangeLoginType($event)">Toggle login type</button>
 		<p>{{ user }}{{ email }}</p>
 	</div>
 	
@@ -74,7 +75,8 @@ var app8 = new Vue({
 		email: ''
 	},
 	methods: {
-		ChangeLoginType: function(){
+		ChangeLoginType: function(event){
+			console.log(event);
 			if(this.loginType === 'username'){
 				this.loginType = 'email';
 				this.user = '';
@@ -263,6 +265,101 @@ var app8 = new Vue({
 	var app12 = new Vue({
 		el: '#app-12'
 	})
+</script>
+
+	<h3>作用域插槽1</h3>
+	<div id="app-13">
+		<div class="parent">
+		  <child>
+			<template scope="props">
+			  <span>hello from parent</span><br>
+			  <span>{{ props.xtext }}</span>
+			</template>
+		  </child>
+		</div>
+	</div>
+	
+<script>
+	Vue.component('child', {
+		template: '<div class="child">\
+		  <slot xtext="hello from child"></slot>\
+		</div>'
+	});
+
+	var app13 = new Vue({
+		el: '#app-13'
+	})
+</script>
+
+	<h3>作用域插槽2</h3>
+	<div id="app-14">
+		<div class="parent">
+			<my-awesome-list :items="items">
+			  <!-- 作用域插槽也可以在这里命名 -->
+			  <template slot="item" scope="props">
+				<li class="my-fancy-item">{{ props.text }}</li>
+			  </template>
+			</my-awesome-list>
+		</div>
+	</div>
+	
+<script>
+	Vue.component('my-awesome-list', {
+		template: '<ul>\
+			<slot name="item" v-for="item in items" :text="item.text"></slot>\
+		</ul>',
+		props: ['items']
+	});
+
+	var app13 = new Vue({
+		el: '#app-14',
+		data: {
+			items: [
+			  { text: 'Vegetables' },
+			  { text: 'Cheese' },
+			  { text: 'Whatever else humans are supposed to eat' }
+			]
+		}
+	})
 </script>	
+
+	<h3>动态组件</h3>
+	<div id="app-15">
+		<nav>
+			<button type="button" @click="changeCurrentView('home')">Home</button>
+			<button type="button" @click="changeCurrentView('about')">About</button>
+			<button type="button" @click="changeCurrentView('news')">News</button>
+		</nav>
+		<keep-alive>
+			<component :is="currentView"></component>
+		</keep-alive>
+	</div>
+	
+<script>
+	var homepage = {  // 组件局部注册
+		template: '<p class="home">Home page</p>'
+	};
+
+	var app15 = new Vue({
+		el: "#app-15",
+		data: {
+			currentView: 'home'
+		},
+		components: {
+			home: homepage,
+			about: {
+				template: '<p class="about">About page</p>'
+			},
+			news: {
+				template: '<p class="news">News page</p>'
+			}
+		},
+		methods: {
+			changeCurrentView: function(value){
+				this.currentView = value;
+			}
+		}
+	})
+</script>
 </body>
 </html>
