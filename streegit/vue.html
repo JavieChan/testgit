@@ -242,7 +242,7 @@ var app8 = new Vue({
 
 	<div id='app-12'>
 		<app-layout>
-		  <h1 slot="header">这里可能是一个页面标题</h1>
+		  <h2 slot="header">这可能是一个假标题</h2>
 		  <p>主要内容的一个段落。</p>
 		  <p>另一个主要段落。</p>
 		  <p slot="footer">这里有一些联系信息</p>
@@ -363,5 +363,29 @@ var app8 = new Vue({
 		}
 	})
 </script>
+
+	<h3>指令</h3>
+	<div id="hook-arguments-example" v-demo:hello.a.b="message"></div>
+	
+<script>
+	Vue.directive('demo', {
+	  bind: function (el, binding, vnode) {
+		var s = JSON.stringify
+		el.innerHTML =
+		  'name: '       + s(binding.name) + '<br>' +
+		  'value: '      + s(binding.value) + '<br>' +
+		  'expression: ' + s(binding.expression) + '<br>' +
+		  'argument: '   + s(binding.arg) + '<br>' +
+		  'modifiers: '  + s(binding.modifiers) + '<br>' +
+		  'vnode keys: ' + Object.keys(vnode).join(', ')
+	  }
+	})
+	new Vue({
+	  el: '#hook-arguments-example',
+	  data: {
+		message: 'hello!'
+	  }
+	})
+</script>	
 </body>
 </html>
