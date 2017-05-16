@@ -21,20 +21,10 @@
 
         function DiGui(start){
             getWifi(function(data){
-                if(data.status==200){
-                    console.log("触发微信认证");
-                }else{
-                    start --;
-                    if(start<0){
-                        console.log("跳出递归");
-                        return false;
-                    }
-                    setTimeout(function(){
-                        console.log(start);
-                        DiGui(start);
-                    }, 5000);
-                }
+                console.log(data);
+                console.log("触发微信认证");
             }, function(err){
+                console.log(err.status);
                 start --;
                 if(start<0){
                     console.log("跳出递归");
@@ -63,9 +53,9 @@
         function getWifi(callback, errFunc){
             $.ajax({
                 method: "get",
-                url: 'http://captive.apple.com/hotspot-detect.html',
+                url: 'http://captive.apple.com/hotspot-detect.html&'+Math.random(),
                 data: '',
-                dataType: "json"
+                // dataType: "json"
             }).done(function(data){
                 callback(data);
             }).fail(function(error){
