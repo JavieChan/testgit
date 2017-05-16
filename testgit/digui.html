@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>递归</title>
+</head>
+<body>
+    <button type="button">button</button>
+
+    <script src="jquery.min.js"></script>
+    <script>
+        $(function(){
+            $('button').on('click', function(e){
+                Account('', function(data){
+                    DiGui(1);
+                }, function(err){
+                    DiGui(1);
+                })
+            });
+        });
+
+        function DiGui(start){
+            getWifi(function(data){
+                if(data.status==200){
+                    console.log("触发微信认证");
+                }else{
+                    start --;
+                    if(start<0){
+                        console.log("跳出递归");
+                        return false;
+                    }
+                    setTimeout(function(){
+                        console.log(start);
+                        DiGui(start);
+                    }, 5000);
+                }
+            }, function(err){
+                start --;
+                if(start<0){
+                    console.log("跳出递归");
+                    return false;
+                }
+                setTimeout(function(){
+                    console.log(start);
+                    DiGui(start);
+                }, 5000);
+            })
+        }
+
+        function Account(params, callback, errFunc){
+            $.ajax({
+                method: "post",
+                url: '/account',
+                data: params,
+                dataType: "json"
+            }).done(function(data){
+                callback(data);
+            }).fail(function(error){
+                if(typeof(errFunc)=="function") errFunc(error);
+            });
+        }
+
+        function getWifi(callback, errFunc){
+            $.ajax({
+                method: "get",
+                url: 'http://captive.apple.com/hotspot-detect.html',
+                data: '',
+                dataType: "json"
+            }).done(function(data){
+                callback(data);
+            }).fail(function(error){
+                console.log(error);
+                if(typeof(errFunc)=="function") errFunc(error);
+            });
+        }
+    </script>
+</body>
+</html>
